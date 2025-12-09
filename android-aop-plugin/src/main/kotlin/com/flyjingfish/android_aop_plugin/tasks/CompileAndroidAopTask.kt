@@ -181,7 +181,7 @@ class CompileAndroidAopTask(
                 val isClassFile = file.name.endsWith(_CLASS)
                 val isWovenInfoCode = isClassFile
                         && AndroidAopConfig.inRules(thisClassName)
-                        && !entryClazzName.startsWith("kotlinx/") && !entryClazzName.startsWith("kotlin/")
+                        && (AndroidAopConfig.includeKotlin || (!entryClazzName.startsWith("kotlinx/") && !entryClazzName.startsWith("kotlin/")))
 
                 val methodsRecord: HashMap<String, MethodRecord>? = WovenInfoUtils.getClassMethodRecord(file.absolutePath)
                 val isSuspend:Boolean

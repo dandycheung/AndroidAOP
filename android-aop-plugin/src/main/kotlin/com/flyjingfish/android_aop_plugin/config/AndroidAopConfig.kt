@@ -22,6 +22,11 @@ open class AndroidAopConfig {
     var cutInfoJson = false
 
     /**
+     * 是否扫描包含 kotlinx、kotlin 下的包，默认 false 不扫描
+     */
+    var includeKotlin = false
+
+    /**
      * 增量加速，有一定增速效果，默认开启
      */
     @Deprecated("已弃用，再使用此配置已无作用")
@@ -79,6 +84,7 @@ open class AndroidAopConfig {
         AndroidAopConfig.excludes.add(Utils.extraPackage)
         AndroidAopConfig.verifyLeafExtends = verifyLeafExtends
         AndroidAopConfig.cutInfoJson = cutInfoJson
+        AndroidAopConfig.includeKotlin = includeKotlin
 //        AndroidAopConfig.increment = increment
     }
 
@@ -95,6 +101,7 @@ open class AndroidAopConfig {
         var verifyLeafExtends = true
         var cutInfoJson = false
         var increment = false
+        var includeKotlin = false
         internal fun syncConfig(project: Project){
             val androidAopConfig = project.extensions.getByType(AndroidAopConfig::class.java)
             androidAopConfig.initConfig()

@@ -333,7 +333,7 @@ abstract class AssembleAndroidAopTask : DefaultTransformTask() {
                     val isClassFile = file.name.endsWith(_CLASS)
                     val isWovenInfoCode = isClassFile
                             && AndroidAopConfig.inRules(thisClassName)
-                            && !entryClazzName.startsWith("kotlinx/") && !entryClazzName.startsWith("kotlin/")
+                            && (AndroidAopConfig.includeKotlin || (!entryClazzName.startsWith("kotlinx/") && !entryClazzName.startsWith("kotlin/")))
 
                     val methodsRecord: HashMap<String, MethodRecord>? = WovenInfoUtils.getClassMethodRecord(file.absolutePath)
                     val isSuspend:Boolean
@@ -578,7 +578,7 @@ abstract class AssembleAndroidAopTask : DefaultTransformTask() {
                         val isClassFile = entryName.endsWith(_CLASS)
                         val isWovenInfoCode = isClassFile
                                 && AndroidAopConfig.inRules(thisClassName)
-                                && !entryName.startsWith("kotlinx/") && !entryName.startsWith("kotlin/")
+                                && (AndroidAopConfig.includeKotlin || (!entryName.startsWith("kotlinx/") && !entryName.startsWith("kotlin/")))
                         val methodsRecord: HashMap<String, MethodRecord>? = WovenInfoUtils.getClassMethodRecord(entryName)
                         val isSuspend:Boolean
                         val realMethodsRecord: HashMap<String, MethodRecord>? = if (methodsRecord == null && SuspendReturnScanner.hasSuspendReturn && isWovenInfoCode){

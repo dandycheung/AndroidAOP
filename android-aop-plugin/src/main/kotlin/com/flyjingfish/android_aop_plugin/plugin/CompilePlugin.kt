@@ -13,7 +13,6 @@ import com.flyjingfish.android_aop_plugin.scanner_visitor.SuspendReturnScanner
 import com.flyjingfish.android_aop_plugin.scanner_visitor.WovenIntoCode
 import com.flyjingfish.android_aop_plugin.tasks.CompileAndroidAopTask
 import com.flyjingfish.android_aop_plugin.tasks.DebugModeFileTask
-import com.flyjingfish.android_aop_plugin.utils.AppClasses
 import com.flyjingfish.android_aop_plugin.utils.ClassFileUtils
 import com.flyjingfish.android_aop_plugin.utils.ClassPoolUtils
 import com.flyjingfish.android_aop_plugin.utils.FileHashUtils
@@ -25,13 +24,9 @@ import com.flyjingfish.android_aop_plugin.utils.adapterOSPath
 import com.flyjingfish.android_aop_plugin.utils.getBuildDirectory
 import com.flyjingfish.android_aop_plugin.utils.getRelativePath
 import org.codehaus.groovy.runtime.DefaultGroovyMethods
-import org.gradle.BuildListener
-import org.gradle.BuildResult
 import org.gradle.api.Project
 import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.api.execution.TaskExecutionGraphListener
-import org.gradle.api.initialization.Settings
-import org.gradle.api.invocation.Gradle
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.compile.AbstractCompile
@@ -184,24 +179,13 @@ class CompilePlugin(private val fromRootSet:Boolean): BasePlugin() {
                             InitConfig.initCutInfo(runtimeProject,true)
                         }
                     }
-                    project.rootProject.gradle.taskGraph.removeTaskExecutionGraphListener(this)
-                }
-
-            })
-            project.rootProject.gradle.addBuildListener(object : BuildListener{
-                override fun settingsEvaluated(settings: Settings) {
-                }
-
-                override fun projectsLoaded(gradle: Gradle) {
-                }
-
-                override fun projectsEvaluated(gradle: Gradle) {
-                }
-
-                override fun buildFinished(result: BuildResult) {
-                    if (startTask){
-                        endAllTask()
+                    val lastTask = it.allTasks.last()
+                    lastTask.doLast {
+                        if (startTask){
+                            endAllTask()
+                        }
                     }
+                    project.rootProject.gradle.taskGraph.removeTaskExecutionGraphListener(this)
                 }
 
             })
@@ -458,9 +442,11 @@ class CompilePlugin(private val fromRootSet:Boolean): BasePlugin() {
     }
 
     private fun endAllTask(){
-        FileHashUtils.clearScanRecord()
-        WovenInfoUtils.clear()
-        ClassPoolUtils.clear()
-        SuspendReturnScanner.hasSuspendReturn = false
+        synchronized(CompilePlugin::class.java){
+            FileHashUtils.clearScanRecord()
+            WovenInfoUtils.clear()
+            ClassPoolUtils.clear()
+            SuspendReturnScanner.hasSuspendReturn = false
+        }
     }
 }

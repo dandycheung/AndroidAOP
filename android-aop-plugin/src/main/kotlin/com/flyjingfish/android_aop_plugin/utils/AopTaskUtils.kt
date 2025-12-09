@@ -63,9 +63,8 @@ class AopTaskUtils(
                 searchJobs.add(job)
 //                processJar()
             } else if (file.absolutePath.endsWith(_CLASS)) {
-                if (AndroidAopConfig.verifyLeafExtends && !className.startsWith("kotlinx/") && !className.startsWith(
-                        "kotlin/"
-                    )
+                if (AndroidAopConfig.verifyLeafExtends &&
+                    (AndroidAopConfig.includeKotlin || (!className.startsWith("kotlinx/") && !className.startsWith("kotlin/")))
                 ) {
 
                     fun processJar(){
@@ -126,9 +125,8 @@ class AopTaskUtils(
                     searchJobs.add(job)
 //                    processJar()
                 } else if (entryName.endsWith(_CLASS)) {
-                    if (AndroidAopConfig.verifyLeafExtends && !entryName.startsWith("kotlinx/") && !entryName.startsWith(
-                            "kotlin/"
-                        )
+                    if (AndroidAopConfig.verifyLeafExtends &&
+                        (AndroidAopConfig.includeKotlin || (!entryName.startsWith("kotlinx/") && !entryName.startsWith("kotlin/")))
                     ) {
                         fun processJar(){
                             jarFile.getInputStream(jarEntry).use { inputs ->
