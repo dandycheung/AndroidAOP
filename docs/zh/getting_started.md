@@ -30,7 +30,7 @@
         
         plugins {
             //👇必须项 (1)👈 apply 设置为 true 自动为所有module“预”配置 debugMode，false则按下边步骤五配置 debugMode 的手动模式
-            id "io.github.flyjingfish.androidaop" version "2.7.3" apply true
+            id "io.github.flyjingfish.androidaop" version "2.7.4" apply true
         }
         ```
         
@@ -41,7 +41,7 @@
         buildscript {
           dependencies {
               //👇必须项 (1)👈
-              classpath "io.github.flyjingfish:androidaop-plugin:2.7.3"
+              classpath "io.github.flyjingfish:androidaop-plugin:2.7.4"
           }
         }
         // 👇加上这句自动为所有module“预”配置debugMode，不加则按下边步骤五配置 debugMode 的手动模式
@@ -57,7 +57,7 @@
         ```kotlin
         plugins {
             //👇必须项 (1)👈 apply 设置为 true 自动为所有module“预”配置debugMode，false则按下边步骤五配置 debugMode 的手动模式
-            id("io.github.flyjingfish.androidaop") version "2.7.3" apply true
+            id("io.github.flyjingfish.androidaop") version "2.7.4" apply true
         }
         ```
         
@@ -68,7 +68,7 @@
         buildscript {
           dependencies {
               //👇必须项 (1)👈
-              classpath("io.github.flyjingfish:androidaop-plugin:2.7.3")
+              classpath("io.github.flyjingfish:androidaop-plugin:2.7.4")
           }
         }
         // 👇加上这句自动为所有module“预”配置debugMode，不加则按下边步骤五配置 debugMode 的手动模式
@@ -137,7 +137,7 @@
     //必须项 👇
     plugins {
         ...
-        id "io.github.flyjingfish.androidaop" version "2.7.3"//最好放在最后一行
+        id "io.github.flyjingfish.androidaop" version "2.7.4"//最好放在最后一行
     }
     ```
 
@@ -147,7 +147,7 @@
     //必须项 👇
     plugins {
         ...
-        id("io.github.flyjingfish.androidaop") version "2.7.3"//最好放在最后一行
+        id("io.github.flyjingfish.androidaop") version "2.7.4"//最好放在最后一行
     }
     ```
 
@@ -185,18 +185,18 @@
     
     dependencies {
         //👇必须项 
-        implementation "io.github.flyjingfish:androidaop-core:2.7.3"
+        implementation "io.github.flyjingfish:androidaop-core:2.7.4"
         //👇非必须项 (1)👈 这个包提供了一些常见的注解切面
-        implementation "io.github.flyjingfish:androidaop-extra:2.7.3" 
+        implementation "io.github.flyjingfish:androidaop-extra:2.7.4" 
         
         //👇必须项 如果您项目内已经有了这项不用加也可以
         implementation "androidx.appcompat:appcompat:1.3.0" // 至少在1.3.0及以上
         
         //👇二选一 (2)👈点击+查看详细说明，⚠️支持Java和Kotlin代码写的切面
-        ksp "io.github.flyjingfish:androidaop-apt:2.7.3"
+        ksp "io.github.flyjingfish:androidaop-apt:2.7.4"
         
         //👇二选一 (3)👈点击+查看详细说明，⚠️只适用于Java代码写的切面
-        annotationProcessor "io.github.flyjingfish:androidaop-apt:2.7.3"
+        annotationProcessor "io.github.flyjingfish:androidaop-apt:2.7.4"
         //⚠️上边的 ksp 和 annotationProcessor 二选一
         //如果只是使用 android-aop-extra 中的功能就不需要选择这两项
     }
@@ -216,18 +216,18 @@
     
     dependencies {
         //👇必须项 
-        implementation("io.github.flyjingfish:androidaop-core:2.7.3")
+        implementation("io.github.flyjingfish:androidaop-core:2.7.4")
         //👇非必须项 (1)👈 这个包提供了一些常见的注解切面
-        implementation("io.github.flyjingfish:androidaop-extra:2.7.3")
+        implementation("io.github.flyjingfish:androidaop-extra:2.7.4")
         
         //👇必须项 如果您项目内已经有了这项不用加也可以
         implementation("androidx.appcompat:appcompat:1.3.0") // 至少在1.3.0及以上
         
         //👇二选一 (2)👈点击+查看详细说明，⚠️支持Java和Kotlin代码写的切面
-        ksp("io.github.flyjingfish:androidaop-apt:2.7.3")
+        ksp("io.github.flyjingfish:androidaop-apt:2.7.4")
         
         //👇二选一 (3)👈点击+查看详细说明，⚠️只适用于Java代码写的切面
-        annotationProcessor("io.github.flyjingfish:androidaop-apt:2.7.3")
+        annotationProcessor("io.github.flyjingfish:androidaop-apt:2.7.4")
         //⚠️上边的 ksp 和 annotationProcessor 二选一
         //如果只是使用 android-aop-extra 中的功能就不需要选择这两项
     }
@@ -254,6 +254,8 @@
     androidAopConfig {
         // enabled 为 false 切面不再起作用，默认不写为 true
         enabled true 
+        // includeKotlin 为 true 扫描 kotlin、kotlinx 代码，默认不写为 false
+        includeKotlin false 
         // include 不设置默认全部扫描，设置后只扫描设置的包名的代码
         include '你项目的包名','自定义module的包名','自定义module的包名'
         // exclude 是扫描时排除的包
